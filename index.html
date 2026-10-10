@@ -1,42 +1,614 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#09090b">
-<title>POLINA beta 1.2</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кликер: Программист + MiloKwel Hack</title>
 <style>
-:root{--bg:#09090b;--pk:#ff4fa3;--pk2:#ff9ccc;--s1:#17141a;--s2:#241c28;--pc:#5a1840;--opc:#ffd9ea;--t:#f6eef2;--t2:#b9a9b3;font-family:Roboto,system-ui,sans-serif}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}*:not(input){-webkit-user-select:none;user-select:none}
-html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--t);overscroll-behavior:none;touch-action:manipulation}
-button,input{font-family:inherit}
-#root{position:fixed;left:0;top:0;transform-origin:0 0;overflow:hidden}
-#c{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
-.ov{position:absolute;inset:0;z-index:5;display:flex;overflow:auto;touch-action:pan-y;padding:max(14px,env(safe-area-inset-top)) 16px 14px;background:#09090b;isolation:isolate}
-.ov::before,.ov::after{content:"";position:absolute;z-index:-1;border-radius:50%;filter:blur(80px);animation:drift 14s ease-in-out infinite alternate}
-.ov::before{width:340px;height:340px;background:#ff4fa3;opacity:.32;left:-120px;top:-90px}
-.ov::after{width:380px;height:380px;background:#b3124f;opacity:.38;right:-150px;bottom:-130px;animation-duration:19s}
-@keyframes drift{to{transform:translate(90px,70px) scale(1.25)}}
-.ov.dim{background:#09090bdd}.ov.dim::before,.ov.dim::after{display:none}
-.hide{display:none!important}
-.card{margin:auto;width:100%;max-width:400px;display:flex;flex-direction:column;gap:12px}
-h1{margin:0;font-size:clamp(56px,18vw,80px);font-weight:900;letter-spacing:.12em;text-indent:.12em;text-align:center;line-height:1;color:#fff;text-shadow:0 0 10px #ff4fa3,0 0 34px #ff4fa3,0 0 70px #ff4fa388;animation:neon 3.5s ease-in-out infinite}
-@keyframes neon{50%{text-shadow:0 0 6px #ff4fa3,0 0 20px #ff4fa3,0 0 44px #ff4fa366}}
-.beta{align-self:center;margin-top:-6px;padding:3px 12px;border-radius:12px;background:#fff;color:#09090b;font-weight:700;font-size:12px;animation:pulse 2.4s ease-in-out infinite}
-@keyframes pulse{50%{transform:scale(1.08);box-shadow:0 0 18px #ff4fa3}}
-h2{margin:0;font-size:26px;text-align:center}
-.sf{background:linear-gradient(160deg,#1c1422cc,#0f0b13cc);border:1px solid #ff4fa328;border-radius:28px;padding:14px;display:flex;flex-direction:column;gap:10px;backdrop-filter:blur(10px)}
-.lbl{font-size:13px;color:var(--t2);font-weight:500}
-#pv{width:100%;height:auto;display:block}
-input[type=text]{width:100%;height:56px;border:0;border-bottom:2px solid var(--pk);border-radius:16px 16px 0 0;background:var(--s2);color:var(--t);font-size:18px;font-weight:500;padding:0 16px;outline:0;-webkit-user-select:text;user-select:text}
-.btn{height:56px;border:0;border-radius:28px;font-size:17px;font-weight:700;cursor:pointer;transition:transform .1s;width:100%}
-.btn:active{transform:scale(.95)}
-.fill{background:linear-gradient(90deg,#ff4fa3,#ff9ccc,#ff4fa3);background-size:200%;color:#2b0518;animation:shine2 3s linear infinite;box-shadow:0 6px 28px #ff4fa355}
-@keyframes shine2{to{background-position:-200% 0}}
-.tonal{background:var(--pc);color:var(--opc)}
-.row{display:flex;gap:10px;align-items:center;justify-content:space-between}
-.skins{display:flex;gap:10px;overflow-x:auto;padding:4px 2px;touch-action:pan-x}
-.sk{width:46px;height:46px;border-radius:50%;flex:none;border:3px solid transparent;display:grid;place-items:center;font-weight:700;color:#fff}
-.sk.on{border-color:#fff;box-shadow:inset 0 0 0 3px var(--s1),0 0 14px #ff4fa388}
-.cols{display:flex;gap:12px;align-items:center}
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 20px; user-select: none;
+  }
+  h1 { font-size: 20px; margin-bottom: 5px; color: #4ecca3; }
+  .money {
+    font-size: 32px; font-weight: bold; color: #ffd700;
+    margin-bottom: 5px; text-shadow: 0 0 10px rgba(255,215,0,0.5);
+  }
+  .per-click { font-size: 14px; color: #aaa; margin-bottom: 15px; text-align: center; }
+ 
+  .tabs {
+    display: flex; gap: 6px; margin-bottom: 15px;
+    width: 100%; max-width: 360px;
+  }
+  .tab {
+    flex: 1; padding: 9px 4px; border-radius: 10px;
+    background: #22223a; border: 2px solid #444;
+    color: #aaa; font-size: 12px; font-weight: bold;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .tab.active { border-color: #4ecca3; color: #4ecca3; background: #1e3a30; }
+ 
+  .scene {
+    position: relative;
+    width: 360px; height: 320px;
+    background: #ffffff;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 2px solid #4ecca3;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+ 
+  /* Стол */
+  .table-top {
+    position: absolute; bottom: 100px; left: 30px; right: 40px; height: 12px;
+    background: #c0392b; border-radius: 3px; z-index: 6;
+  }
+  .table-leg {
+    position: absolute; bottom: 0; width: 8px; height: 100px; background: #c0392b; z-index: 5;
+  }
+  .table-leg.left { left: 48px; transform: skewX(-4deg); }
+  .table-leg.right { right: 55px; transform: skewX(4deg); }
+ 
+  /* Ноутбук */
+  .laptop {
+    position: absolute; bottom: 112px; left: 52%; transform: translateX(-50%);
+    width: 110px; height: 70px; z-index: 7;
+  }
+  .laptop-back {
+    position: absolute; top: 0; right: 0; width: 78px; height: 68px;
+    background: linear-gradient(135deg, #b0b0b0 0%, #888 100%);
+    border-radius: 4px 8px 2px 2px; box-shadow: 2px 2px 6px rgba(0,0,0,0.25);
+    transform: skewY(-6deg);
+  }
+  .laptop-screen {
+    position: absolute; top: 4px; right: 5px; width: 68px; height: 58px;
+    background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+    border-radius: 3px; transform: skewY(-6deg);
+    display: flex; align-items: center; justify-content: center;
+    color: #4ecca3; font-family: monospace; font-size: 7px;
+    overflow: hidden; padding: 3px; white-space: pre; line-height: 1.1;
+  }
+  .laptop-base {
+    position: absolute; bottom: 0; left: 25px; width: 85px; height: 8px;
+    background: linear-gradient(180deg, #999 0%, #666 100%);
+    border-radius: 2px 4px 4px 2px; transform: skewX(-18deg);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  .laptop.hidden { display: none; }
+ 
+  /* Мониторы */
+  .monitor-wrap {
+    position: absolute; bottom: 112px; left: 52%; transform: translateX(-50%);
+    transition: all 0.4s; z-index: 7; display: none;
+  }
+  .monitor-wrap.visible { display: block; }
+  .monitor {
+    background: #222; border-radius: 6px; display: flex; align-items: center;
+    justify-content: center; transition: all 0.4s; width: 120px; height: 80px;
+    border: 3px solid #444;
+  }
+  .screen {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #0f0; font-family: monospace; overflow: hidden;
+    padding: 4px; white-space: pre; line-height: 1.1; background: #000;
+  }
+  .monitor-stand {
+    position: absolute; bottom: 100px; left: 52%; transform: translateX(-50%);
+    width: 30px; height: 12px; background: #444; z-index: 6; display: none;
+  }
+  .monitor-stand.visible { display: block; }
+ 
+  .monitor2 {
+    position: absolute; bottom: 112px; left: 25px; width: 68px; height: 48px;
+    background: #222; border: 3px solid #444; border-radius: 4px; display: none;
+    align-items: center; justify-content: center; z-index: 7;
+  }
+  .monitor2 .screen { background: #05a; color: #cff; font-size: 8px; }
+  .monitor2.on { display: flex; }
+ 
+  /* Декор */
+  .plant-pot {
+    position: absolute; bottom: 0; left: 35px; width: 32px; height: 26px;
+    background: #d2691e; border-radius: 4px 4px 8px 8px; z-index: 2;
+  }
+  .plant-pot::before {
+    content: ''; position: absolute; top: -4px; left: -3px; width: 38px; height: 8px;
+    background: #e67e22; border-radius: 3px;
+  }
+  .plant-leaf { position: absolute; bottom: 22px; left: 35px; width: 30px; height: 40px; z-index: 1; }
+  .leaf {
+    position: absolute; width: 16px; height: 22px; background: #4caf50;
+    border-radius: 50% 0 50% 50%; transform-origin: bottom center;
+  }
+  .leaf.l1 { left: 8px; bottom: 0; transform: rotate(-30deg); }
+  .leaf.l2 { left: 0; bottom: 8px; transform: rotate(-60deg); }
+  .leaf.l3 { left: 14px; bottom: 4px; transform: rotate(0deg); }
+  .leaf.l4 { left: 4px; bottom: 16px; transform: rotate(-20deg); }
+ 
+  .book { position: absolute; left: 27px; height: 8px; border-radius: 2px; z-index: 2; }
+  .book.b1 { bottom: 0; width: 46px; background: #3498db; }
+  .book.b2 { bottom: 8px; width: 50px; background: #9b59b6; }
+ 
+  .briefcase {
+    position: absolute; bottom: 4px; right: 35px; width: 55px; height: 45px;
+    background: linear-gradient(135deg, #555 0%, #333 100%); border-radius: 5px;
+    z-index: 2; box-shadow: 2px 3px 6px rgba(0,0,0,0.3);
+  }
+  .briefcase::before {
+    content: ''; position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+    width: 20px; height: 8px; background: #444; border-radius: 3px 3px 0 0;
+  }
+  .briefcase::after {
+    content: ''; position: absolute; top: 50%; left: 8px; right: 8px; height: 2px;
+    background: #222; transform: translateY(-50%);
+  }
+ 
+  /* Кресло */
+  .chair-back {
+    position: absolute; bottom: 90px; left: 105px; width: 50px; height: 110px;
+    background: linear-gradient(135deg, #ad1457 0%, #880e4f 100%);
+    border-radius: 16px 16px 8px 8px; box-shadow: inset -4px -4px 8px rgba(0,0,0,0.2); z-index: 3;
+  }
+  .chair-pole { position: absolute; bottom: 20px; left: 125px; width: 8px; height: 32px; background: #333; z-index: 3; }
+  .chair-base { position: absolute; bottom: 16px; left: 108px; width: 45px; height: 4px; background: #333; border-radius: 2px; z-index: 3; }
+  .chair-wheel { position: absolute; bottom: 10px; width: 8px; height: 8px; background: #222; border-radius: 50%; z-index: 3; }
+  .chair-wheel.w1 { left: 105px; }
+  .chair-wheel.w2 { left: 127px; }
+  .chair-wheel.w3 { left: 148px; }
+  .chair-seat {
+    position: absolute; bottom: 48px; left: 105px; width: 75px; height: 14px;
+    background: linear-gradient(180deg, #c2185b 0%, #880e4f 100%); border-radius: 6px; z-index: 4;
+  }
+ 
+  /* Человек */
+  .person {
+    position: absolute; bottom: 0; left: 0; width: 360px; height: 320px;
+    z-index: 5; pointer-events: none; transition: transform 0.15s ease-out;
+  }
+  .person.typing { transform: translateX(2px) translateY(-1px); }
+  .torso {
+    position: absolute; bottom: 95px; left: 138px; width: 50px; height: 62px;
+    background: linear-gradient(135deg, #4a90e2 0%, #2c5aa0 100%);
+    border-radius: 14px 10px 8px 12px; transform: rotate(-6deg); z-index: 7;
+  }
+  .collar {
+    position: absolute; top: -2px; left: 50%; transform: translateX(-50%); width: 22px; height: 11px;
+    background: #ecf0f1; clip-path: polygon(0 0, 50% 100%, 100% 0, 75% 0, 50% 40%, 25% 0); z-index: 8;
+  }
+  .tie {
+    position: absolute; top: 7px; left: 46%; width: 8px; height: 30px;
+    background: linear-gradient(180deg, #e74c3c 0%, #c0392b 100%);
+    clip-path: polygon(30% 0, 70% 0, 100% 15%, 100% 100%, 50% 95%, 0 100%, 0 15%);
+    z-index: 9; transform: rotate(-5deg);
+  }
+  .head {
+    position: absolute; bottom: 145px; left: 138px; width: 46px; height: 52px;
+    background: linear-gradient(135deg, #f5cba7 0%, #e0a878 100%);
+    border-radius: 50%; z-index: 10; transform: rotate(-5deg);
+  }
+  .nose { position: absolute; bottom: 18px; right: -5px; width: 9px; height: 9px; background: #e0a878; border-radius: 0 50% 50% 0; z-index: 11; }
+  .hair {
+    position: absolute; top: -5px; left: -2px; width: 50px; height: 32px;
+    background: linear-gradient(180deg, #6d4c2a 0%, #4a3320 100%); border-radius: 50% 50% 30% 30%; z-index: 11;
+  }
+  .hair::after {
+    content: ''; position: absolute; top: 6px; right: -6px; width: 16px; height: 18px;
+    background: #5d3a1a; border-radius: 50%; transform: rotate(-15deg);
+  }
+  .ear { position: absolute; top: 23px; right: 4px; width: 8px; height: 11px; background: #e0a878; border-radius: 50%; z-index: 9; }
+  .eye { position: absolute; top: 23px; right: 13px; width: 5px; height: 6px; background: #2c3e50; border-radius: 50%; z-index: 12; }
+  .brow { position: absolute; top: 17px; right: 11px; width: 8px; height: 2px; background: #4a3320; border-radius: 2px; z-index: 12; }
+  .mouth { position: absolute; bottom: 13px; right: 5px; width: 7px; height: 3px; background: #d98880; border-radius: 50%; z-index: 12; }
+ 
+  .arm { position: absolute; background: linear-gradient(135deg, #4a90e2 0%, #2c5aa0 100%); border-radius: 10px; z-index: 8; transition: transform 0.08s; }
+  .arm.left { bottom: 105px; left: 170px; width: 13px; height: 45px; transform: rotate(75deg); transform-origin: top center; }
+  .arm.right { bottom: 108px; left: 163px; width: 13px; height: 38px; transform: rotate(88deg); transform-origin: top center; opacity: 0.85; }
+  .hand { position: absolute; width: 13px; height: 11px; background: #f5cba7; border-radius: 50%; z-index: 9; transition: transform 0.08s; }
+  .hand.left { bottom: 100px; left: 205px; }
+  .hand.right { bottom: 105px; left: 198px; opacity: 0.85; }
+ 
+  .leg { position: absolute; background: linear-gradient(180deg, #1a2740 0%, #0f1a2e 100%); border-radius: 8px; z-index: 4; }
+  .leg.left { bottom: 25px; left: 143px; width: 18px; height: 65px; transform: rotate(3deg); transform-origin: top center; }
+  .leg.right { bottom: 25px; left: 165px; width: 18px; height: 65px; transform: rotate(-3deg); transform-origin: top center; }
+  .shoe { position: absolute; width: 26px; height: 12px; background: #0d1520; border-radius: 6px 4px 3px 3px; z-index: 5; }
+  .shoe.left { bottom: 16px; left: 134px; }
+  .shoe.right { bottom: 16px; left: 158px; }
+ 
+  .hat {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%); width: 56px; height: 22px;
+    background: #e74c3c; border-radius: 6px 6px 0 0; display: none; z-index: 13;
+  }
+  .hat.visible { display: block; }
+  .glasses {
+    position: absolute; top: 21px; left: 50%; transform: translateX(-50%); width: 38px; height: 10px;
+    background: #222; border-radius: 5px; display: none; z-index: 13;
+  }
+  .glasses.visible { display: block; }
+ 
+  .person.typing .hand.left { transform: translateY(-5px) translateX(3px); }
+  .person.typing .hand.right { transform: translateY(-4px) translateX(-2px); }
+ 
+  .click-btn {
+    width: 180px; height: 180px; border-radius: 50%; border: none;
+    background: radial-gradient(circle at 30% 30%, #4ecca3, #2a8a6a);
+    color: #fff; font-size: 22px; font-weight: bold; cursor: pointer;
+    box-shadow: 0 8px 0 #1e5f4a, 0 12px 25px rgba(0,0,0,0.5);
+    transition: all 0.08s; margin-bottom: 20px;
+  }
+  .click-btn:active { transform: translateY(6px); box-shadow: 0 2px 0 #1e5f4a, 0 4px 10px rgba(0,0,0,0.5); }
+ 
+  .shop {
+    width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 8px;
+    max-height: 240px; overflow-y: auto;
+  }
+  .item {
+    background: #22223a; border: 2px solid #4ecca3; border-radius: 10px; padding: 10px 14px;
+    display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+    transition: all 0.15s; font-size: 13px;
+  }
+  .item.disabled { opacity: 0.4; cursor: not-allowed; border-color: #555; }
+  .item.bought { border-color: #ffd700; background: #2a2a1a; }
+  .item .info { text-align: left; }
+  .item .name { font-weight: bold; color: #4ecca3; }
+  .item.bought .name { color: #ffd700; }
+  .item .desc { font-size: 11px; color: #aaa; }
+  .item .price { color: #ffd700; font-weight: bold; font-size: 13px; }
+ 
+  .reset-btn {
+    margin-top: 15px; padding: 10px 20px; background: transparent; border: 2px solid #ff5555;
+    color: #ff5555; border-radius: 8px; font-size: 14px; cursor: pointer;
+  }
+
+  /* ======================================================== */
+  /* ============== СТИЛИ ЧИТ-МЕНЮ MILOKWEL ================= */
+  /* ======================================================== */
+  #milokwel-btn {
+    position: fixed; top: 12px; right: 12px; z-index: 99999;
+    background: linear-gradient(135deg, #ff0055, #7a00ff);
+    color: #fff; border: 2px solid #fff; border-radius: 50px;
+    padding: 8px 16px; font-weight: 900; font-size: 13px;
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.7); cursor: pointer;
+  }
+  #milokwel-menu {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 92%; max-width: 360px; max-height: 85vh; overflow-y: auto;
+    background: #10101c; border: 2px solid #ff0055; border-radius: 14px;
+    box-shadow: 0 0 30px rgba(255, 0, 85, 0.5); z-index: 100000;
+    padding: 16px; display: none; flex-direction: column; gap: 12px;
+  }
+  .mk-header {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #333; padding-bottom: 8px;
+  }
+  .mk-title { font-size: 16px; font-weight: bold; color: #ff0055; text-shadow: 0 0 8px #ff0055; }
+  .mk-close { background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+  .mk-section {
+    background: #1a1a2b; border: 1px solid #333; border-radius: 8px;
+    padding: 10px; display: flex; flex-direction: column; gap: 8px;
+  }
+  .mk-section-title { font-size: 12px; color: #4ecca3; font-weight: bold; text-transform: uppercase; }
+  .mk-row { display: flex; gap: 6px; }
+  .mk-input {
+    flex: 1; background: #0c0c16; border: 1px solid #555; color: #fff;
+    padding: 6px 10px; border-radius: 6px; font-size: 13px; outline: none;
+  }
+  .mk-btn {
+    background: #2a2a44; border: 1px solid #666; color: #fff;
+    padding: 6px 10px; border-radius: 6px; font-size: 12px; font-weight: bold;
+    cursor: pointer; transition: 0.1s;
+  }
+  .mk-btn:hover { background: #3b3b61; border-color: #ff0055; }
+  .mk-btn.primary { background: #ff0055; border: none; }
+  .mk-btn.success { background: #27ae60; border: none; }
+  .mk-toggle-on { background: #00e676 !important; color: #000 !important; }
+</style>
+</head>
+<body>
+
+  <!-- Кнопка вызова меню MiloKwel -->
+  <button id="milokwel-btn">⚡ MiloKwel</button>
+
+  <!-- Модальное окно чита MiloKwel -->
+  <div id="milokwel-menu">
+    <div class="mk-header">
+      <div class="mk-title">⚡ MILOKWEL CHEATS ⚡</div>
+      <button class="mk-close" id="mk-close-btn">✖</button>
+    </div>
+
+    <!-- 1. Деньги -->
+    <div class="mk-section">
+      <div class="mk-section-title">💰 Баланс (Деньги)</div>
+      <div class="mk-row">
+        <input type="number" id="mk-money-inp" class="mk-input" placeholder="Количество ₽">
+        <button class="mk-btn primary" id="mk-set-money">Выдать</button>
+      </div>
+      <div class="mk-row">
+        <button class="mk-btn" id="mk-add-100k">+100 тыс.</button>
+        <button class="mk-btn" id="mk-add-1m">+1 млн.</button>
+        <button class="mk-btn" id="mk-add-1b">+1 млрд.</button>
+      </div>
+    </div>
+
+    <!-- 2. Автокликер -->
+    <div class="mk-section">
+      <div class="mk-section-title">🤖 Автокликер</div>
+      <div class="mk-row">
+        <button class="mk-btn success" id="mk-autoclick-btn" style="flex:1;">ВКЛ Автокликер</button>
+      </div>
+      <div class="mk-row">
+        <button class="mk-btn" id="mk-speed-100" style="flex:1;">10 кл/сек</button>
+        <button class="mk-btn" id="mk-speed-20" style="flex:1;">50 кл/сек</button>
+        <button class="mk-btn" id="mk-speed-1" style="flex:1;">1000 кл/сек</button>
+      </div>
+    </div>
+
+    <!-- 3. Клик и Пассивный доход -->
+    <div class="mk-section">
+      <div class="mk-section-title">⚡ Доход & Клик</div>
+      <div class="mk-row">
+        <input type="number" id="mk-click-inp" class="mk-input" placeholder="За клик">
+        <button class="mk-btn" id="mk-set-click">Задать</button>
+        <button class="mk-btn" id="mk-mult-click">x100</button>
+      </div>
+      <div class="mk-row">
+        <input type="number" id="mk-sec-inp" class="mk-input" placeholder="В секунду">
+        <button class="mk-btn" id="mk-set-sec">Задать</button>
+        <button class="mk-btn" id="mk-mult-sec">x100</button>
+      </div>
+    </div>
+
+    <!-- 4. Улучшения и разблокировка -->
+    <div class="mk-section">
+      <div class="mk-section-title">🛒 Прокачка & Вещи</div>
+      <button class="mk-btn" id="mk-buy-all">🚀 Скупить все улучшения</button>
+      <button class="mk-btn" id="mk-unlock-monitors">🖥️ Включить оба монитора</button>
+      <button class="mk-btn" id="mk-toggle-hat">🎩 Надеть/Снять шапку</button>
+      <button class="mk-btn" id="mk-toggle-glasses">🕶️ Надеть/Снять очки</button>
+    </div>
+  </div>
+
+  <!-- Сама игра -->
+  <h1>💻 Программист-кликер</h1>
+  <div class="money" id="money">0 ₽</div>
+  <div class="per-click" id="perClick">За клик: 1 ₽ | В секунду: 0 ₽</div>
+ 
+  <div class="scene">
+    <div class="plant-leaf">
+      <div class="leaf l1"></div><div class="leaf l2"></div><div class="leaf l3"></div><div class="leaf l4"></div>
+    </div>
+    <div class="plant-pot"></div>
+    <div class="book b1"></div><div class="book b2"></div>
+ 
+    <div class="chair-back"></div><div class="chair-pole"></div><div class="chair-base"></div>
+    <div class="chair-wheel w1"></div><div class="chair-wheel w2"></div><div class="chair-wheel w3"></div>
+    <div class="chair-seat"></div>
+ 
+    <div class="leg left"></div><div class="shoe left"></div>
+    <div class="leg right"></div><div class="shoe right"></div>
+ 
+    <div class="person" id="person">
+      <div class="torso" id="body">
+        <div class="collar"></div>
+        <div class="tie" id="tie"></div>
+      </div>
+      <div class="head" id="head">
+        <div class="hair" id="hair"></div><div class="nose"></div><div class="ear"></div>
+        <div class="eye" id="eyeL"></div><div class="brow"></div><div class="mouth"></div>
+      </div>
+      <div class="hat" id="hat"></div>
+      <div class="glasses" id="glasses"></div>
+      <div class="arm left" id="armL"></div><div class="arm right" id="armR"></div>
+      <div class="hand left" id="handL"></div><div class="hand right" id="handR"></div>
+    </div>
+ 
+    <div class="monitor2" id="monitor2"><div class="screen" id="screen2">&gt; compile</div></div>
+    <div class="monitor-stand" id="stand"></div>
+    <div class="monitor-wrap" id="monitorWrap">
+      <div class="monitor" id="monitor"><div class="screen" id="screen">&gt; _</div></div>
+    </div>
+    <div class="laptop" id="laptop">
+      <div class="laptop-back"></div><div class="laptop-screen" id="laptopScreen">&gt; _</div><div class="laptop-base"></div>
+    </div>
+ 
+    <div class="table-leg left"></div><div class="table-leg right"></div><div class="table-top"></div>
+    <div class="briefcase"></div>
+  </div>
+ 
+  <button class="click-btn" id="clickBtn">РАБОТАТЬ</button>
+ 
+  <div class="tabs">
+    <button class="tab active" id="tabUpgrades">🛒 Улучш.</button>
+    <button class="tab" id="tabKeyboard">⌨️ Клава</button>
+    <button class="tab" id="tabSkins">🎨 Скины</button>
+    <button class="tab" id="tabMonitors">🖥️ Монит.</button>
+  </div>
+ 
+  <div class="shop" id="shop"></div>
+  <button class="reset-btn" id="resetBtn">🔄 Сбросить прогресс</button>
+ 
+<script>
+  // Основные переменные игры
+  let money = 0;
+  let perClick = 1;
+  let autoIncome = 0;
+  let pcLevel = 1;
+  let hasSecondMonitor = false;
+
+  const moneyEl = document.getElementById('money');
+  const perClickEl = document.getElementById('perClick');
+  const clickBtn = document.getElementById('clickBtn');
+  const person = document.getElementById('person');
+  const laptop = document.getElementById('laptop');
+  const monitorWrap = document.getElementById('monitorWrap');
+  const stand = document.getElementById('stand');
+  const monitor2 = document.getElementById('monitor2');
+  const shopEl = document.getElementById('shop');
+  const hat = document.getElementById('hat');
+  const glasses = document.getElementById('glasses');
+
+  // Форматирование денег
+  function formatMoney(num) {
+    if (num >= 1e9) return (num / 1e9).toFixed(2) + ' млрд';
+    if (num >= 1e6) return (num / 1e6).toFixed(2) + ' млн';
+    if (num >= 1e3) return (num / 1e3).toFixed(2) + ' тыс';
+    return Math.floor(num).toLocaleString('ru-RU');
+  }
+
+  function updateUI() {
+    moneyEl.textContent = formatMoney(money) + ' ₽';
+    perClickEl.textContent = `За клик: ${formatMoney(perClick)} ₽ | В секунду: ${formatMoney(autoIncome)} ₽`;
+    renderShop();
+  }
+
+  // Список улучшений
+  const upgrades = [
+    { id: 'coffee', name: '☕ Кофе', desc: '+2 ₽ за клик', price: 100, bought: false, apply: () => perClick += 2 },
+    { id: 'monitor2', name: '🖥️ Второй монитор', desc: '+5 ₽ за клик', price: 300, bought: false, apply: () => { perClick += 5; hasSecondMonitor = true; monitor2.classList.add('on'); } },
+    { id: 'pc2', name: '💻 Компьютер получше', desc: '+3 ₽/сек', price: 500, bought: false, apply: () => { autoIncome += 3; laptop.classList.add('hidden'); monitorWrap.classList.add('visible'); stand.classList.add('visible'); } },
+    { id: 'intern', name: '🧑‍💻 Стажёр', desc: '+10 ₽/сек', price: 700, bought: false, apply: () => autoIncome += 10 },
+    { id: 'wide', name: '🖥️ Широкий монитор', desc: '+25 ₽/сек', price: 1500, bought: false, apply: () => autoIncome += 25 }
+  ];
+
+  function renderShop() {
+    shopEl.innerHTML = '';
+    upgrades.forEach((item, index) => {
+      const div = document.createElement('div');
+      div.className = 'item' + (item.bought ? ' bought' : (money < item.price ? ' disabled' : ''));
+      div.innerHTML = `
+        <div class="info">
+          <div class="name">${item.name} ${item.bought ? '✔' : ''}</div>
+          <div class="desc">${item.desc}</div>
+        </div>
+        <div class="price">${item.bought ? 'Куплено' : item.price + ' ₽'}</div>
+      `;
+      if (!item.bought) {
+        div.onclick = () => {
+          if (money >= item.price) {
+            money -= item.price;
+            item.bought = true;
+            item.apply();
+            updateUI();
+          }
+        };
+      }
+      shopEl.appendChild(div);
+    });
+  }
+
+  // Клик
+  clickBtn.addEventListener('click', () => {
+    money += perClick;
+    person.classList.add('typing');
+    setTimeout(() => person.classList.remove('typing'), 80);
+    updateUI();
+  });
+
+  // Пассивный доход каждую секунду
+  setInterval(() => {
+    if (autoIncome > 0) {
+      money += autoIncome;
+      updateUI();
+    }
+  }, 1000);
+
+  // Сброс
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    money = 0; perClick = 1; autoIncome = 0;
+    upgrades.forEach(u => u.bought = false);
+    monitor2.classList.remove('on');
+    laptop.classList.remove('hidden');
+    monitorWrap.classList.remove('visible');
+    stand.classList.remove('visible');
+    updateUI();
+  });
+
+  updateUI();
+
+  /* ======================================================== */
+  /* =============== СКРИПТ ЧИТ-МЕНЮ MILOKWEL =============== */
+  /* ======================================================== */
+  const mkBtn = document.getElementById('milokwel-btn');
+  const mkMenu = document.getElementById('milokwel-menu');
+  const mkClose = document.getElementById('mk-close-btn');
+
+  mkBtn.onclick = () => mkMenu.style.display = 'flex';
+  mkClose.onclick = () => mkMenu.style.display = 'none';
+
+  // 1. Деньги
+  document.getElementById('mk-set-money').onclick = () => {
+    const val = parseFloat(document.getElementById('mk-money-inp').value);
+    if (!isNaN(val)) { money = val; updateUI(); }
+  };
+  document.getElementById('mk-add-100k').onclick = () => { money += 100000; updateUI(); };
+  document.getElementById('mk-add-1m').onclick = () => { money += 1000000; updateUI(); };
+  document.getElementById('mk-add-1b').onclick = () => { money += 1000000000; updateUI(); };
+
+  // 2. Автокликер
+  let autoClickerInterval = null;
+  let clickDelay = 20;
+  const acBtn = document.getElementById('mk-autoclick-btn');
+
+  function toggleAutoClicker() {
+    if (autoClickerInterval) {
+      clearInterval(autoClickerInterval);
+      autoClickerInterval = null;
+      acBtn.textContent = 'ВКЛ Автокликер';
+      acBtn.classList.remove('mk-toggle-on');
+    } else {
+      autoClickerInterval = setInterval(() => clickBtn.click(), clickDelay);
+      acBtn.textContent = 'ВЫКЛ Автокликер';
+      acBtn.classList.add('mk-toggle-on');
+    }
+  }
+  acBtn.onclick = toggleAutoClicker;
+
+  function setDelay(ms) {
+    clickDelay = ms;
+    if (autoClickerInterval) {
+      clearInterval(autoClickerInterval);
+      autoClickerInterval = setInterval(() => clickBtn.click(), clickDelay);
+    }
+  }
+  document.getElementById('mk-speed-100').onclick = () => setDelay(100);
+  document.getElementById('mk-speed-20').onclick = () => setDelay(20);
+  document.getElementById('mk-speed-1').onclick = () => setDelay(1);
+
+  // 3. За клик и в секунду
+  document.getElementById('mk-set-click').onclick = () => {
+    const val = parseFloat(document.getElementById('mk-click-inp').value);
+    if (!isNaN(val)) { perClick = val; updateUI(); }
+  };
+  document.getElementById('mk-mult-click').onclick = () => { perClick *= 100; updateUI(); };
+
+  document.getElementById('mk-set-sec').onclick = () => {
+    const val = parseFloat(document.getElementById('mk-sec-inp').value);
+    if (!isNaN(val)) { autoIncome = val; updateUI(); }
+  };
+  document.getElementById('mk-mult-sec').onclick = () => { autoIncome *= 100; updateUI(); };
+
+  // 4. Покупки и косметика
+  document.getElementById('mk-buy-all').onclick = () => {
+    upgrades.forEach(u => {
+      if (!u.bought) { u.bought = true; u.apply(); }
+    });
+    updateUI();
+  };
+  document.getElementById('mk-unlock-monitors').onclick = () => {
+    hasSecondMonitor = true;
+    monitor2.classList.add('on');
+    laptop.classList.add('hidden');
+    monitorWrap.classList.add('visible');
+    stand.classList.add('visible');
+  };
+  document.getElementById('mk-toggle-hat').onclick = () => hat.classList.toggle('visible');
+  document.getElementById('mk-toggle-glasses').onclick = () => glasses.classList.toggle('visible');
+</script>
+</body>
+</html>
